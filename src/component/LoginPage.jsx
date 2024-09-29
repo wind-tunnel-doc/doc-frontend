@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 function LoginPage() {
   const [phone, setPhone] = useState('');
   const [code, setCode] = useState('');
+  const navigate = useNavigate();
   
   const handlePhoneChange = (e) => setPhone(e.target.value);
   const handleCodeChange = (e) => setCode(e.target.value);
@@ -11,6 +12,8 @@ function LoginPage() {
     e.preventDefault();
     // 在这里处理登录逻辑
     console.log('Phone:', phone, 'Code:', code);
+    
+    navigate('/home');
   };
 
   return (
