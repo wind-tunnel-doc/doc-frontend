@@ -1,10 +1,11 @@
 import React from 'react';
 import Sidebar from './SideBar';
-
+import HomePageContent from './HomePageContent';
 function HomePage() {
   return (
-    <div>
+    <div className='flex'>
       <Sidebar></Sidebar>
+      <HomePageContent/>
     </div>
   );
 }
