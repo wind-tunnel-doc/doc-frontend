@@ -11,6 +11,7 @@ function Login() {
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
   const handleLogin = async (e) => {
+    navigate('/home');
     e.preventDefault();
 
     // 构造登录请求数据
