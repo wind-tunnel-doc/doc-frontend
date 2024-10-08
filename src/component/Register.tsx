@@ -1,16 +1,30 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../asset/logo.webp';
+import { useRequest } from 'ahooks';
 // import { Request } from './types'; // 导入你定义的接口
 export interface Request {
   username: string;
   password: string;
-  confirmPassword: string;
+  confirmPassword?: string;
   nickName: string;
   phone: string;
   sex: string;
-  avatar: string | null;
+  avatar?: string | null;
 }
+const service = async (data: Request) => {
+  const response = await fetch('/api/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) {
+    throw new Error('注册失败');
+  }
+  return response.json();
+};
 const Register: React.FC = () => {
   const [formData, setFormData] = useState<Request>({
     username: '',
@@ -23,8 +37,18 @@ const Register: React.FC = () => {
   });
 
   const navigate = useNavigate();
+  const { loading, runAsync } = useRequest(service, {
+    manual: true,
+    onSuccess: (data) => {
+      alert('注册成功');
+      navigate('/login');
+    },
+    onError: (error) => {
+      console.error('网络错误:', error);
+      alert('注册失败');
+    },
+  });
 
-  // 处理表单字段的变化，更新状态
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({
@@ -33,41 +57,16 @@ const Register: React.FC = () => {
     });
   };
 
-  // 处理表单提交
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // 验证密码是否匹配
     if (formData.password !== formData.confirmPassword) {
       alert('两次输入的密码不匹配！');
       return;
     }
 
-    // 构造注册请求数据
     const { confirmPassword, ...registerData } = formData; // 去除 confirmPassword 字段
-
-    // 发送注册请求
-    try {
-      const response = await fetch('https://localhost:9000/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(registerData),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        // 注册成功，跳转到登录页面
-        navigate('/login');
-      } else {
-        // 注册失败，显示错误信息
-        console.error('注册失败:', result.message);
-      }
-    } catch (error) {
-      console.error('网络错误:', error);
-    }
+    await runAsync(registerData);
   };
 
   return (
@@ -172,10 +171,11 @@ const Register: React.FC = () => {
           {/* Register Button */}
           <div className="mb-4">
             <button
+              disabled={loading}
               type="submit"
               className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg w-full"
             >
-              注册
+              {loading ? '加载中...' : '注册'}
             </button>
           </div>
         </form>
