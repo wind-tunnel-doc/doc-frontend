@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import Editor from './Editor';
+import Editor from '../component/Editor';
 
 // 假设这是后端 API 的 base URL
 const API_BASE_URL = 'https://your-backend-api.com';

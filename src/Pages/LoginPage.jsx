@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Login from "./Login";
-import Register from "./Register.tsx";
+import Login from "../component/Login.jsx";
+import Register from "../component/Register.tsx";
 
 function LoginPage() {
   // 当前选中的导航项的状态

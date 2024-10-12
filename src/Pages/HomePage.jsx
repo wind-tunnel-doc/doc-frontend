@@ -1,6 +1,6 @@
 import React from 'react';
-import Sidebar from './SideBar';
-import HomePageContent from './HomePageContent';
+import Sidebar from '../component/SideBar';
+import HomePageContent from '../component/HomePageContent';
 function HomePage() {
   return (
     <div className='flex'>
