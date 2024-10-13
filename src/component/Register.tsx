@@ -2,16 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../asset/logo.webp';
 import { useRequest } from 'ahooks';
-// import { Request } from './types'; // 导入你定义的接口
-export interface Request {
-  username: string;
-  password: string;
-  confirmPassword?: string;
-  nickName: string;
-  phone: string;
-  sex: string;
-  avatar?: string | null;
-}
+import { Request } from '../types/Request'; // 导入你定义的接口
+
 const service = async (data: Request) => {
   const response = await fetch('/api/register', {
     method: 'POST',
