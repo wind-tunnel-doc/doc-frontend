@@ -11,7 +11,7 @@ function Login() {
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
   const handleLogin = async (e) => {
-    navigate('/home');
+    // navigate('/home');
     e.preventDefault();
 
     // 构造登录请求数据
@@ -22,16 +22,15 @@ function Login() {
 
     // 向后端发送登录请求
     try {
-      const response = await fetch('https://your-backend-api.com/login', {
-        method: 'POST',
+      const response = await fetch('http://127.0.0.1:8080/api/data', {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(loginData),
       });
 
       const result = await response.json();
-
+      console.log(result)
       if (response.ok) {
         // 如果登录成功，跳转到主页
         console.log('登录成功:', result);
